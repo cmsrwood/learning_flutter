@@ -46,8 +46,7 @@ class _FirstScreenState extends State<FirstScreen> {
         title: const Text('App pantallas'),
         backgroundColor: Colors.blue,
       ),
-      body: 
-      _screens[_currentIndex],
+      body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onItemTapped,
@@ -69,9 +68,7 @@ class FirstScreenContent extends StatelessWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Primera pantalla'),
-        ],
+        children: [Text('Primera pantalla')],
       ),
     );
   }
@@ -101,9 +98,7 @@ class ThirdScreenContent extends StatelessWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Tercera pantalla'),
-        ],
+        children: [Text('Tercera pantalla')],
       ),
     );
   }
