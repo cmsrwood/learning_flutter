@@ -30,7 +30,7 @@ class _CasinoPageState extends State<CasinoPage> {
   String ruta1 = 'assets/images/interrogacion.jpg';
   String ruta2 = 'assets/images/interrogacion.jpg';
   String ruta3 = 'assets/images/interrogacion.jpg';
-  String mensaje = '';
+  String mensaje = 'Presiona para jugar';
   bool spinning = false;
 
   void jugar() {
@@ -53,12 +53,11 @@ class _CasinoPageState extends State<CasinoPage> {
         if (spins == 10) {
           timer.cancel();
           spinning = false;
-        }
-        
-        if (ruta1 == ruta2 && ruta2 == ruta3) {
-          mensaje = 'Ganaste! Felicidades';
-        } else {
-          mensaje = 'Perdiste, vuelve a intentarlo';
+          if (ruta1 == ruta2 && ruta2 == ruta3) {
+            mensaje = 'Ganaste! Felicidades';
+          } else {
+            mensaje = 'Perdiste, vuelve a intentarlo';
+          }
         }
       });
     });
