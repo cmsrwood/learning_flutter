@@ -37,7 +37,9 @@ class _InicioScreenState extends State<InicioLayout> {
         });
       });
     } else {
-      showError('Saldo insuficiente para retirar');
+      showError(
+        'Saldo insuficiente para retirar, saldo actual: \$${saldo.toStringAsFixed(2)}',
+      );
     }
   }
 
@@ -52,7 +54,9 @@ class _InicioScreenState extends State<InicioLayout> {
         });
       });
     } else {
-      showError('Saldo insuficiente para pagar');
+      showError(
+        'Saldo insuficiente para pagar, saldo actual: \$${saldo.toStringAsFixed(2)}',
+      );
     }
   }
 
@@ -68,7 +72,9 @@ class _InicioScreenState extends State<InicioLayout> {
         });
       });
     } else {
-      showError('Saldo insuficiente para transferir');
+      showError(
+        'Saldo insuficiente para transferir, saldo actual: \$${saldo.toStringAsFixed(2)}',
+      );
     }
   }
 

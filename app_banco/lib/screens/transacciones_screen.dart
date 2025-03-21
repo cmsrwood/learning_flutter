@@ -17,6 +17,8 @@ class TransaccionesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController valorTransaccion = TextEditingController();
+
     return Center(
       child: Column(
         children: [
@@ -26,27 +28,40 @@ class TransaccionesScreen extends StatelessWidget {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
+          Container(
+            width: 300,
+            child: TextField(
+              controller: valorTransaccion,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: 'Valor de la transacción',
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ButtonAccion(
-                onPressed: () => depositar(100.0),
+                onPressed: () => depositar(double.parse(valorTransaccion.text)),
                 text: 'Depositar',
                 icon: Icons.attach_money,
               ),
 
               ButtonAccion(
-                onPressed: () => transferir(100.0),
+                onPressed:
+                    () => transferir(double.parse(valorTransaccion.text)),
                 text: 'Transferir',
                 icon: Icons.send,
               ),
               ButtonAccion(
-                onPressed: () => pagar(100.0),
+                onPressed: () => pagar(double.parse(valorTransaccion.text)),
                 text: 'Pagar',
                 icon: Icons.payment,
               ),
               ButtonAccion(
-                onPressed: () => retirar(100.0),
+                onPressed: () => retirar(double.parse(valorTransaccion.text)),
                 text: 'Retirar',
                 icon: Icons.money_off,
               ),
