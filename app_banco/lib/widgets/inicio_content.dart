@@ -10,8 +10,9 @@ class InicioContent extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Center(
+Widget build(BuildContext context) {
+  return SingleChildScrollView(
+    child: Center(
       child: Column(
         children: [
           const SizedBox(height: 20),
@@ -79,6 +80,8 @@ class InicioContent extends StatelessWidget {
               : [const Text('No hay transacciones')],
         ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }

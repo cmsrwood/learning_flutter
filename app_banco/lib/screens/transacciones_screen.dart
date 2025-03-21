@@ -47,7 +47,7 @@ class TransaccionesScreen extends StatelessWidget {
               ButtonAccion(
                 onPressed: retirar,
                 text: 'Retirar',
-                icon: Icons.remove,
+                icon: Icons.money_off,
               ),
             ],
           ),

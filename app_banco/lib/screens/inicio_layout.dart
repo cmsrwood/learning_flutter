@@ -33,10 +33,16 @@ class _InicioScreenState extends State<InicioLayout> {
     if (saldo >= valorTransaccion) {
       setState(() {
         saldo -= valorTransaccion;
-        transacciones.add('Retiro: -\$${valorTransaccion.toStringAsFixed(2)}');
+        transacciones.add({
+          'tipo': 'Retiro',
+          'fecha': DateTime.now(),
+          'cantidad': "-\$${valorTransaccion.toStringAsFixed(2)}",
+          'icono': Icons.money_off,
+          'color': Colors.red,
+        });
       });
     } else {
-      showError('Saldo insuficiente');
+      showError('Saldo insuficiente para retirar');
     }
   }
 
@@ -44,10 +50,16 @@ class _InicioScreenState extends State<InicioLayout> {
     if (saldo >= valorTransaccion) {
       setState(() {
         saldo -= valorTransaccion;
-        transacciones.add('Pago: -\$${valorTransaccion.toStringAsFixed(2)}');
+        transacciones.add({
+          'tipo': 'Pago',
+          'fecha': DateTime.now(),
+          'cantidad': "-\$${valorTransaccion.toStringAsFixed(2)}",
+          'icono': Icons.payment,
+          'color': Colors.red,
+        });
       });
     } else {
-      showError('Saldo insuficiente');
+      showError('Saldo insuficiente para pagar');
     }
   }
 
@@ -55,12 +67,17 @@ class _InicioScreenState extends State<InicioLayout> {
     if (saldo >= valorTransaccion) {
       setState(() {
         saldo -= valorTransaccion;
-        transacciones.add(
-          'Transferencia: -\$${valorTransaccion.toStringAsFixed(2)}',
-        );
+        transacciones.add({
+          'tipo': 'Transferencia',
+          'destino': 'Cuenta 2',
+          'fecha': DateTime.now(),
+          'cantidad': "-\$${valorTransaccion.toStringAsFixed(2)}",
+          'icono': Icons.send,
+          'color': Colors.red,
+        });
       });
     } else {
-      showError('Saldo insuficiente');
+      showError('Saldo insuficiente para transferir');
     }
   }
 
