@@ -13,23 +13,20 @@ class InicioLayout extends StatefulWidget {
 class _InicioScreenState extends State<InicioLayout> {
   int _currentIndex = 0;
   double saldo = 0.0;
-  double valorTransaccion = 50.0;
   List transacciones = [];
 
-  void depositar() {
+  void depositar(valorTransaccion) {
     setState(() {
       saldo += valorTransaccion;
       transacciones.add({
         'tipo': 'Deposito',
         'fecha': DateTime.now(),
         'cantidad': "\$${valorTransaccion.toStringAsFixed(2)}",
-        'icono': Icons.monetization_on,
-        'color': Colors.green,
       });
     });
   }
 
-  void retirar() {
+  void retirar(valorTransaccion) {
     if (saldo >= valorTransaccion) {
       setState(() {
         saldo -= valorTransaccion;
@@ -37,8 +34,6 @@ class _InicioScreenState extends State<InicioLayout> {
           'tipo': 'Retiro',
           'fecha': DateTime.now(),
           'cantidad': "-\$${valorTransaccion.toStringAsFixed(2)}",
-          'icono': Icons.money_off,
-          'color': Colors.red,
         });
       });
     } else {
@@ -46,7 +41,7 @@ class _InicioScreenState extends State<InicioLayout> {
     }
   }
 
-  void pagar() {
+  void pagar(valorTransaccion) {
     if (saldo >= valorTransaccion) {
       setState(() {
         saldo -= valorTransaccion;
@@ -54,8 +49,6 @@ class _InicioScreenState extends State<InicioLayout> {
           'tipo': 'Pago',
           'fecha': DateTime.now(),
           'cantidad': "-\$${valorTransaccion.toStringAsFixed(2)}",
-          'icono': Icons.payment,
-          'color': Colors.red,
         });
       });
     } else {
@@ -63,7 +56,7 @@ class _InicioScreenState extends State<InicioLayout> {
     }
   }
 
-  void transferir() {
+  void transferir(valorTransaccion) {
     if (saldo >= valorTransaccion) {
       setState(() {
         saldo -= valorTransaccion;
@@ -72,8 +65,6 @@ class _InicioScreenState extends State<InicioLayout> {
           'destino': 'Cuenta 2',
           'fecha': DateTime.now(),
           'cantidad': "-\$${valorTransaccion.toStringAsFixed(2)}",
-          'icono': Icons.send,
-          'color': Colors.red,
         });
       });
     } else {

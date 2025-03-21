@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import '../widgets/button_accion.dart';
 
 class TransaccionesScreen extends StatelessWidget {
-  final VoidCallback depositar;
-  final VoidCallback retirar;
-  final VoidCallback pagar;
-  final VoidCallback transferir;
+  final void Function(double) depositar;
+  final void Function(double) retirar;
+  final void Function(double) pagar;
+  final void Function(double) transferir;
 
   const TransaccionesScreen({
     super.key,
@@ -30,22 +30,23 @@ class TransaccionesScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ButtonAccion(
-                onPressed: depositar,
+                onPressed: () => depositar(100.0),
                 text: 'Depositar',
                 icon: Icons.attach_money,
               ),
+
               ButtonAccion(
-                onPressed: transferir,
+                onPressed: () => transferir(100.0),
                 text: 'Transferir',
                 icon: Icons.send,
               ),
               ButtonAccion(
-                onPressed: pagar,
+                onPressed: () => pagar(100.0),
                 text: 'Pagar',
                 icon: Icons.payment,
               ),
               ButtonAccion(
-                onPressed: retirar,
+                onPressed: () => retirar(100.0),
                 text: 'Retirar',
                 icon: Icons.money_off,
               ),
