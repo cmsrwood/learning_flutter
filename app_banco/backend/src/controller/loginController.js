@@ -11,9 +11,9 @@ exports.registrar = async (req, res, next) => {
 }    
 
 exports.ingresar = async (req, res, next) => {
-    const { email, password} = req.body;
+    const usuario = req.body;
     try {
-        const response = await loginServices.ingresar({email, password})
+        const response = await loginServices.ingresar(usuario);
         res.status(200).json(response);
     } catch (error) { 
         next(error);

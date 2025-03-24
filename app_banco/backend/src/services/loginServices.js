@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const ingresarRepository = require('../repository/loginRepository');
+const { BadRequestError, NotFoundError } = require('../errors/ExceptionErrors');
 
 
 exports.registrar = async (usuario) => { 
@@ -12,12 +13,12 @@ exports.ingresar = async (usuario) => {
     const datos = await ingresarRepository.ingresar(usuario);
 
     if (!datos) { 
-        throw new Error('El usuario no existe')
+        throw new NotFoundError('Usuario no encontrado');
     }
 
     const match = await bcrypt.compare(usuario.password, datos.password);
     if (!match) { 
-        throw new Error('Contraseña incorrecta')
+        throw new BadRequestError('Contraseña incorrecta');
     }
 
     return {

@@ -16,22 +16,21 @@ class AuthService {
 
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
-      final token =
-          json['token'];
+      final token = json['token'];
 
-      await _storage.write(key: 'jwt', value: token);
+      await _storage.write(key: 'token', value: token);
       return true;
     } else {
-      // Manejo de error
+      print('Error al iniciar sesión: ${response.statusCode}');
       return false;
     }
   }
 
   Future<String?> getToken() async {
-    return await _storage.read(key: 'jwt');
+    return await _storage.read(key: 'token');
   }
 
   Future<void> logout() async {
-    await _storage.delete(key: 'jwt');
+    await _storage.delete(key: 'token');
   }
 }
