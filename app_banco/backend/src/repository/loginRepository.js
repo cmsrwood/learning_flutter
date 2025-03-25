@@ -22,7 +22,7 @@ exports.registrar = async (usuario) => {
     })
 }
 
-exports.ingresar = async (usuario) => { 
+exports.encontrarUsuarioPorEmail = async (usuario) => { 
     return new Promise((resolve, reject) => { 
         const q = 'SELECT * FROM usuarios WHERE email = ?'; 
         const values = [

@@ -5,12 +5,17 @@ const { BadRequestError, NotFoundError } = require('../errors/ExceptionErrors');
 
 
 exports.registrar = async (usuario) => { 
+    const encontrar = await ingresarRepository.encontrarUsuarioPorEmail(usuario);
+    if (encontrar) {
+        throw new BadRequestError('Usuario ya registrado');
+    }
+    console.log(encontrar);
     const response = await ingresarRepository.registrar(usuario);
     return response
 }
 
 exports.ingresar = async (usuario) => {
-    const datos = await ingresarRepository.ingresar(usuario);
+    const datos = await ingresarRepository.encontrarUsuarioPorEmail(usuario);
 
     if (!datos) { 
         throw new NotFoundError('Usuario no encontrado');
@@ -21,11 +26,13 @@ exports.ingresar = async (usuario) => {
         throw new BadRequestError('Contraseña incorrecta');
     }
 
+    const token = jwt.sign({ id: datos.id }, 'secret');
+
     return {
         message: 'Ingreso exitoso',
         id: datos.id,
         nombre: datos.nombre,
         email: datos.email,
-        token: jwt.sign({ id: datos.id }, 'secret')
+        token: token
     }
 }
