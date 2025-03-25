@@ -76,7 +76,9 @@ class InicioContent extends StatelessWidget {
                               Text(
                                 t['cantidad'].toString(),
                                 style: TextStyle(
-                                  color: t['color'],
+                                  color: t['tipo'] == 'Deposito'
+                                        ? Colors.green
+                                        : Colors.red,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

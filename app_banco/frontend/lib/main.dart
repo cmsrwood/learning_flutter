@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
-import 'screens/inicio_layout.dart';
+import 'package:app_banco/screens/inicio_layout.dart';
+import 'package:app_banco/screens/login.dart';
+import 'package:app_banco/services/auth_service.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final authService = AuthService();
+  final bool isLoggedIn = await authService.isLoggedIn();
+
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  final bool isLoggedIn;
+  const MyApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Banco',
-      home: InicioLayout(),
+      title: 'Banco App',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: isLoggedIn ? const InicioLayout() : const LoginScreen(),
     );
   }
 }

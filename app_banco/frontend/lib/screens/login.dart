@@ -1,36 +1,117 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:app_banco/services/auth_service.dart';
+import 'package:app_banco/screens/inicio_layout.dart';
 
-class AuthService {
-  final _storage = FlutterSecureStorage();
-  final String _baseUrl = 'https://localhost:3000';
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
-  Future<bool> login(String email, String password) async {
-    final url = Uri.parse('$_baseUrl/login');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': email, 'password': password}),
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
+  String? _errorMessage;
+
+  void _login() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    final authService = AuthService();
+    bool success = await authService.login(
+      _emailController.text.trim(),
+      _passwordController.text.trim(),
     );
 
-    if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
-      final token = json['token'];
+    setState(() {
+      _isLoading = false;
+    });
 
-      await _storage.write(key: 'token', value: token);
-      return true;
+    if (success) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const InicioLayout()),
+      );
     } else {
-      print('Error al iniciar sesión: ${response.statusCode}');
-      return false;
+      setState(() {
+        _errorMessage = 'Credenciales incorrectas. Inténtalo de nuevo.';
+      });
     }
   }
 
-  Future<String?> getToken() async {
-    return await _storage.read(key: 'token');
-  }
-
-  Future<void> logout() async {
-    await _storage.delete(key: 'token');
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Iniciar Sesión')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Banco App',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(labelText: 'Correo'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ingrese su correo';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Contraseña',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ingrese su contraseña';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    _isLoading
+                        ? const CircularProgressIndicator()
+                        : ElevatedButton(
+                          onPressed: _login,
+                          child: const Text('Iniciar Sesión'),
+                        ),
+                    if (_errorMessage != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          _errorMessage!,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
