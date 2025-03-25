@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:app_banco/services/auth_service.dart';
 import 'package:app_banco/screens/inicio_layout.dart';
-import 'package:app_banco/screens/registro_screen.dart';
+import 'package:app_banco/screens/login.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegistroScreen extends StatefulWidget {
+  const RegistroScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegistroScreen> createState() => _RegistroScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegistroScreenState extends State<RegistroScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nombreController = TextEditingController();
+  final TextEditingController _apellidoController = TextEditingController();
   bool _isLoading = false;
   String? _errorMessage;
 
-  void _login() async {
+  void _Registro() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() {
@@ -26,9 +28,11 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     final authService = AuthService();
-    bool success = await authService.login(
+    bool success = await authService.registro(
       _emailController.text.trim(),
       _passwordController.text.trim(),
+      _nombreController.text.trim(),
+      _apellidoController.text.trim(),
     );
 
     setState(() {
@@ -50,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Iniciar Sesión')),
+      appBar: AppBar(title: const Text('Registro')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -91,12 +95,34 @@ class _LoginScreenState extends State<LoginScreen> {
                         return null;
                       },
                     ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _nombreController,
+                      decoration: const InputDecoration(labelText: 'Nombre'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ingrese su Nombre';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _apellidoController,
+                      decoration: const InputDecoration(labelText: 'Apellido'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ingrese su Apellido';
+                        }
+                        return null;
+                      },
+                    ),
                     const SizedBox(height: 20),
                     _isLoading
                         ? const CircularProgressIndicator()
                         : ElevatedButton(
-                          onPressed: _login,
-                          child: const Text('Iniciar Sesión'),
+                          onPressed: _Registro,
+                          child: const Text('Registrarse'),
                         ),
                     if (_errorMessage != null)
                       Padding(
@@ -106,16 +132,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: const TextStyle(color: Colors.red),
                         ),
                       ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed:
                           () => Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const RegistroScreen(),
+                              builder: (context) => const LoginScreen(),
                             ),
                           ),
-                      child: const Text('Registrarme'),
+                      child: const Text('Volver'),
                     ),
                   ],
                 ),
